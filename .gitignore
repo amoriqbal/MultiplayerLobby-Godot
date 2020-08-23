@@ -1,1 +1,4 @@
 builds/*
+bin/*
+git_api.gdnlib
+git_api.gdns
