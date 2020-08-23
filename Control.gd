@@ -2,6 +2,7 @@ extends Control
 
 export(String) var ip
 export(String) var port
+export(PackedScene) var AvatarScene
 var my_id=-1
 var peer = null
 
@@ -32,7 +33,11 @@ func _on_connected_to_server():
 	my_id = get_tree().get_network_unique_id()
 	display_message("Connection established. Your id is " + str(my_id))
 	print("Connection established. Your id is " + str(my_id))
-	# Upon successful connection create a player instance and set it's camera to active
+	var my_avatar=AvatarScene.instance()
+	my_avatar.set_name(str(my_id))
+	my_avatar.set_network_master(my_id)
+	$VBoxContainer/Avatars.add_child(my_avatar)
+
 	
 
 func _on_server_disconnected():
@@ -41,6 +46,14 @@ func _on_server_disconnected():
 	
 func _on_player_connected(id):
 	display_message('Player' + str(id) + 'connected')
+	
+
+	#produce its avatar.
+	if id != 1:
+		var avatar=AvatarScene.instance()
+		avatar.set_name(str(id))
+		avatar.set_network_master(id)
+		$VBoxContainer/Avatars.add_child(avatar)
 	
 
 func _on_player_disconnected(id):
@@ -69,4 +82,6 @@ puppet func say_hello():
 	
 master func say_zzz():
 	display_message('master_func')
+
+
 

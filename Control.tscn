@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Control.gd" type="Script" id=1]
+[ext_resource path="res://Avatar.tscn" type="PackedScene" id=2]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -11,6 +12,7 @@ __meta__ = {
 }
 ip = "127.0.0.1"
 port = "5000"
+AvatarScene = ExtResource( 2 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
@@ -39,7 +41,13 @@ text = "Connect"
 [node name="incoming" type="ItemList" parent="VBoxContainer"]
 margin_top = 132.0
 margin_right = 1024.0
-margin_bottom = 600.0
+margin_bottom = 396.0
 rect_min_size = Vector2( 0, 50 )
 size_flags_vertical = 3
+
+[node name="Avatars" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 400.0
+margin_right = 1024.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 0, 200 )
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="start_client"]
