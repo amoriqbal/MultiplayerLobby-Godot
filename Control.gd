@@ -5,7 +5,7 @@ export(String) var port
 export(PackedScene) var AvatarScene
 var my_id=-1
 var peer = null
-
+var lobby_reg={}
 
 func start_client():
 	peer = NetworkedMultiplayerENet.new()
@@ -42,7 +42,10 @@ func _on_connected_to_server():
 
 func _on_server_disconnected():
 	display_message("Server disconnected.")
-	
+	#delete all avatars
+	var ch=$VBoxContainer/Avatars.get_children()
+	for i in ch:
+		$VBoxContainer/Avatars.remove_child(ch)
 	
 func _on_player_connected(id):
 	display_message('Player' + str(id) + 'connected')
@@ -54,11 +57,14 @@ func _on_player_connected(id):
 		avatar.set_name(str(id))
 		avatar.set_network_master(id)
 		$VBoxContainer/Avatars.add_child(avatar)
+		lobby_reg[str(id)]=avatar
 	
 
 func _on_player_disconnected(id):
 	display_message('Player' + str(id) + 'disconnected')
-
+	$VBoxContainer/Avatars.remove_child(lobby_reg[str(id)])
+	(lobby_reg[str(id)] as Node).free() 
+	lobby_reg[str(id)]=null
 
 func _on_connect_pressed():
 #	$ui/button.visible = false
