@@ -1,12 +1,23 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Avatar.gd" type="Script" id=1]
+[ext_resource path="res://Alice-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://cyan.tres" type="StyleBox" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 24
+outline_color = Color( 0.301961, 0.792157, 0.870588, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="Theme" id=2]
+default_font = SubResource( 1 )
 
 [node name="Avatar" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = SubResource( 2 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -29,21 +40,26 @@ __meta__ = {
 [node name="AvatarLog" type="ItemList" parent="VBoxContainer"]
 margin_top = 34.0
 margin_right = 1024.0
-margin_bottom = 502.0
+margin_bottom = 488.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_styles/bg = ExtResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 
 [node name="SendButton" type="Button" parent="VBoxContainer"]
-margin_top = 506.0
+margin_top = 492.0
 margin_right = 1024.0
 margin_bottom = 526.0
 size_flags_horizontal = 3
+text = "Send"
 
 [node name="MessageInput" type="TextEdit" parent="VBoxContainer"]
 margin_top = 530.0
 margin_right = 1024.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 0, 70 )
+custom_styles/normal = ExtResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

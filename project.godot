@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="NetworkingClient"
-run/main_scene="res://Control.tscn"
+run/main_scene="res://Client.tscn"
 config/icon="res://icon.png"
 
 [gdnative]

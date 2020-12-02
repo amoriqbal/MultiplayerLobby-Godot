@@ -8,6 +8,15 @@ var peer = null
 var lobby_reg={}
 
 func start_client():
+	if $VBoxContainer/server_ip.text.is_valid_ip_address() and $VBoxContainer/server_port.text.is_valid_integer():
+		ip=$VBoxContainer/server_ip.text
+		port=int($VBoxContainer/server_port.text)
+	display_message("Connecting...")
+
+	if !ip.is_valid_ip_address():
+		display_message("IP is invalid!")
+		return
+
 	peer = NetworkedMultiplayerENet.new()
 	peer.create_client(ip, int(port))
 	get_tree().set_network_peer(peer)
@@ -30,6 +39,10 @@ func _on_connection_failed():
 	
 
 func _on_connected_to_server():
+	var ch=$VBoxContainer/Avatars.get_children()
+	for i in ch:
+		$VBoxContainer/Avatars.remove_child(i)
+		(i as Node).free()
 	my_id = get_tree().get_network_unique_id()
 	display_message("Connection established. Your id is " + str(my_id))
 	print("Connection established. Your id is " + str(my_id))
@@ -37,6 +50,7 @@ func _on_connected_to_server():
 	my_avatar.set_name(str(my_id))
 	my_avatar.set_network_master(my_id)
 	$VBoxContainer/Avatars.add_child(my_avatar)
+	lobby_reg[str(my_id)]=my_avatar
 
 	
 
@@ -45,7 +59,8 @@ func _on_server_disconnected():
 	#delete all avatars
 	var ch=$VBoxContainer/Avatars.get_children()
 	for i in ch:
-		$VBoxContainer/Avatars.remove_child(ch)
+		$VBoxContainer/Avatars.remove_child(i)
+		(i as Node).free()
 	
 func _on_player_connected(id):
 	display_message('Player' + str(id) + 'connected')
@@ -59,7 +74,6 @@ func _on_player_connected(id):
 		$VBoxContainer/Avatars.add_child(avatar)
 		lobby_reg[str(id)]=avatar
 	
-
 func _on_player_disconnected(id):
 	display_message('Player' + str(id) + 'disconnected')
 	$VBoxContainer/Avatars.remove_child(lobby_reg[str(id)])
@@ -68,6 +82,9 @@ func _on_player_disconnected(id):
 
 func _on_connect_pressed():
 #	$ui/button.visible = false
+	if $VBoxContainer/server_ip.text.is_valid_ip_address() and $VBoxContainer/server_port.text.is_valid_integer():
+		ip=$VBoxContainer/server_ip.text
+		port=int($VBoxContainer/server_port.text)
 	display_message("Connecting...")
 
 	if !ip.is_valid_ip_address():
