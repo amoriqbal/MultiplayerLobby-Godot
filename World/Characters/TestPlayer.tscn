@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://World/BasicPlayerGO.gd" type="Script" id=1]
+[ext_resource path="res://World/Assets/player_model.png" type="Texture" id=2]
+
+[sub_resource type="ConvexPolygonShape2D" id=1]
+points = PoolVector2Array( -30.644, -51.938, 30.482, -52.018, -0.477, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=2]
+points = PoolVector2Array( -30.644, 51.938, 30.482, 52.018, -0.477, 0 )
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 36.3947
+
+[node name="BasicPlayerGO" type="RigidBody2D" groups=[
+"Player",
+]]
+gravity_scale = 0.0
+contacts_reported = 1
+contact_monitor = true
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 2 )
+
+[node name="NeedleAreaBot" type="Area2D" parent="."]
+
+[node name="NeedleBottom" type="CollisionShape2D" parent="NeedleAreaBot"]
+position = Vector2( 0.157776, 90.9639 )
+shape = SubResource( 1 )
+
+[node name="NeedleAreaTop" type="Area2D" parent="."]
+position = Vector2( 0, -2.287 )
+
+[node name="NeedleTop" type="CollisionShape2D" parent="NeedleAreaTop"]
+position = Vector2( -0.0925751, -88.3592 )
+shape = SubResource( 2 )
+
+[node name="Body" type="CollisionShape2D" parent="."]
+shape = SubResource( 3 )
+[connection signal="body_entered" from="NeedleAreaBot" to="." method="_on_needle_enter_body"]
+[connection signal="body_entered" from="NeedleAreaTop" to="." method="_on_needle_enter_body"]
