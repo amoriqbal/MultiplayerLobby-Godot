@@ -4,7 +4,7 @@ export(String) var ip
 export(String) var port
 export(PackedScene) var AvatarScene
 var my_id=-1
-var peer = null
+var peer:NetworkedMultiplayerENet = null
 var lobby_reg={}
 
 func start_client():
@@ -108,3 +108,17 @@ master func say_zzz():
 
 
 
+
+
+func _on_DisconnectButton_pressed():
+	peer.close_connection()
+
+
+func _on_HideButton_pressed():
+	$VBoxContainer.hide()
+	$HUD.show()
+
+
+func _on_ShowLobbyButton_pressed():
+	$HUD.hide()
+	$VBoxContainer.show()
