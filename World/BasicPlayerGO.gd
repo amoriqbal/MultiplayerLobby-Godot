@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends KinematicBody2D
 var velocity=500
 
 
@@ -15,8 +15,6 @@ var velocity=500
 #func movement(direction,delta):
 #	apply_impulse(Vector2.ZERO, direction*velocity*delta)
 
-puppetsync func player_accelerate(direction:Vector2):
-	self.add_central_force(direction*velocity)
 
 puppet func kill():
 	print('killed')

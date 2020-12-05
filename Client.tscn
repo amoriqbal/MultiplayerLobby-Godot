@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Client.gd" type="Script" id=1]
 [ext_resource path="res://UI/Avatar.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Alice-Regular.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://UI/cyan.tres" type="StyleBox" id=4]
+[ext_resource path="res://BattleField.gd" type="Script" id=5]
 [ext_resource path="res://World/Characters/TestPlayer.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFont" id=1]
@@ -96,6 +97,7 @@ rect_min_size = Vector2( 0, 200 )
 
 [node name="BattleField" type="Node2D" parent="."]
 visible = false
+script = ExtResource( 5 )
 
 [node name="PlayerGOHolder" type="Node2D" parent="BattleField"]
 
@@ -111,46 +113,7 @@ margin_right = 257.0
 margin_bottom = 153.0
 size_flags_horizontal = 0
 text = "Show Lobby"
-
-[node name="up" type="Button" parent="HUD"]
-margin_left = 110.036
-margin_top = 307.322
-margin_right = 190.036
-margin_bottom = 387.322
-
-[node name="down" type="Button" parent="HUD"]
-margin_left = 107.021
-margin_top = 498.578
-margin_right = 187.021
-margin_bottom = 578.578
-
-[node name="left" type="Button" parent="HUD"]
-margin_left = 8.93674
-margin_top = 401.232
-margin_right = 88.9367
-margin_bottom = 481.232
-
-[node name="right" type="Button" parent="HUD"]
-margin_left = 209.907
-margin_top = 400.894
-margin_right = 289.907
-margin_bottom = 480.894
-
-[node name="flip" type="Button" parent="HUD"]
-margin_left = 781.449
-margin_top = 384.419
-margin_right = 911.449
-margin_bottom = 509.419
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ConnectButton" to="." method="start_client"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/DisconnectButton" to="." method="_on_DisconnectButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/HideButton" to="." method="_on_HideButton_pressed"]
 [connection signal="pressed" from="HUD/ShowLobbyButton" to="." method="_on_ShowLobbyButton_pressed"]
-[connection signal="button_down" from="HUD/up" to="." method="_on_up_button_down"]
-[connection signal="button_up" from="HUD/up" to="." method="_on_up_button_up"]
-[connection signal="button_down" from="HUD/down" to="." method="_on_down_button_down"]
-[connection signal="button_up" from="HUD/down" to="." method="_on_down_button_up"]
-[connection signal="button_down" from="HUD/left" to="." method="_on_left_button_down"]
-[connection signal="button_up" from="HUD/left" to="." method="_on_left_button_up"]
-[connection signal="button_down" from="HUD/right" to="." method="_on_right_button_down"]
-[connection signal="button_up" from="HUD/right" to="." method="_on_right_button_up"]
-[connection signal="pressed" from="HUD/flip" to="." method="_on_flip_pressed"]

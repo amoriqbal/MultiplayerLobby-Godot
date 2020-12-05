@@ -1,5 +1,4 @@
 extends Control
-
 export(String) var ip
 export(String) var port
 export(PackedScene) var AvatarScene
@@ -142,97 +141,40 @@ func _on_ShowLobbyButton_pressed():
 	$HUD.hide()
 	$BattleField.hide()
 	$VBoxContainer.show()
+
 func is_player_ready():
 	if get_tree().network_peer == null:
 		return false
 	if not str(get_tree().get_network_unique_id()) in lobby_reg:
 		return false
 	return true
-	 
-func _process(delta):
+
+func get_my_player():
 	if not is_player_ready():
-		return
+		return null
 	
-	var my_player=lobby_reg[str(get_tree().get_network_unique_id())]['player']
-	if Input.is_action_just_pressed('ui_up'):
-		print("UP_PRESSED")
-		my_player.rpc( "player_accelerate",Vector2(0,-1))
-	if Input.is_action_just_pressed('ui_down'):
-		print("DOWN_PRESSED")
-		my_player.rpc( "player_accelerate",Vector2(0,1))
-	if Input.is_action_just_pressed('ui_left'):
-		print("LEFT_PRESSED")
-		my_player.rpc( "player_accelerate",Vector2(-1,0))
-	if Input.is_action_just_pressed('ui_right'):
-		print("RIGHT_PRESSED")
-		my_player.rpc( "player_accelerate",Vector2(1,0))		
-	if Input.is_action_just_released('ui_up'):
-		print("UP_RELEASED")
-		my_player.rpc( "player_accelerate",Vector2(0,1))
-	if Input.is_action_just_released('ui_down'):
-		print("DOWN_RELEASED")
-		my_player.rpc( "player_accelerate",Vector2(0,-1))
-	if Input.is_action_just_released('ui_left'):
-		print("LEFT_RELEASED")
-		my_player.rpc( "player_accelerate",Vector2(1,0))
-	if Input.is_action_just_released('ui_right'):
-		print("RIGHT_RELEASED")
-		my_player.rpc( "player_accelerate",Vector2(-1,0))
-	
-	if Input.is_key_pressed(KEY_SPACE):
-		_on_flip_pressed()
+	return lobby_reg[str(get_tree().get_network_unique_id())]['player']
+
+export (int) var speed = 200
+
+var velocity = Vector2()
+
+func _input(event):
+	if event is InputEventScreenTouch or event is InputEventScreenTouch:
+		Input.action_press("ui_touch")
+func get_input():
+	if get_my_player() == null:
+		return
+	get_my_player().look_at(get_global_mouse_position())
+	velocity = Vector2()
+	if Input.is_action_pressed("ui_touch"):
+		velocity=speed* (get_global_mouse_position() - get_my_player().position).normalized()
+
+func _physics_process(delta):
+	if get_my_player()==null:
+		return
+	get_input()
+	velocity = get_my_player().move_and_slide(velocity)
 
 
-func _on_flip_pressed():
-	if not is_player_ready():
-		return
-	(lobby_reg[str(get_tree().get_network_unique_id())]['player'] as Node2D).rotate(PI/2)
 
-func _on_up_button_down():
-	if not is_player_ready():
-		return
-	var my_player=lobby_reg[str(get_tree().get_network_unique_id())]['player']
-	print("UP_PRESSED")
-	my_player.rpc( "player_accelerate",Vector2(0,-1))
-func _on_down_button_down():
-	if not is_player_ready():
-		return
-	var my_player=lobby_reg[str(get_tree().get_network_unique_id())]['player']
-	print("DOWN_PRESSED")
-	my_player.rpc( "player_accelerate",Vector2(0,1))
-func _on_left_button_down():
-	if not is_player_ready():
-		return
-	var my_player=lobby_reg[str(get_tree().get_network_unique_id())]['player']
-	print("LEFT_PRESSED")
-	my_player.rpc( "player_accelerate",Vector2(-1,0))
-func _on_right_button_down():
-	if not is_player_ready():
-		return
-	var my_player=lobby_reg[str(get_tree().get_network_unique_id())]['player']
-	print("RIGHT_PRESSED")
-	my_player.rpc( "player_accelerate",Vector2(1,0))
-func _on_up_button_up():
-	if not is_player_ready():
-		return
-	var my_player=lobby_reg[str(get_tree().get_network_unique_id())]['player']
-	print("UP_RELEASED")
-	my_player.rpc( "player_accelerate",Vector2(0,1))
-func _on_down_button_up():
-	if not is_player_ready():
-		return
-	var my_player=lobby_reg[str(get_tree().get_network_unique_id())]['player']
-	print("DOWN_RELEASED")
-	my_player.rpc( "player_accelerate",Vector2(0,-1))
-func _on_left_button_up():
-	if not is_player_ready():
-		return
-	var my_player=lobby_reg[str(get_tree().get_network_unique_id())]['player']
-	print("LEFT_RELEASED")
-	my_player.rpc( "player_accelerate",Vector2(1,0))
-func _on_right_button_up():
-	if not is_player_ready():
-		return
-	var my_player=lobby_reg[str(get_tree().get_network_unique_id())]['player']
-	print("RIGHT_RELEASED")
-	my_player.rpc( "player_accelerate",Vector2(-1,0))
