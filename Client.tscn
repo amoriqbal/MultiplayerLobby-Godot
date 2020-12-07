@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Client.gd" type="Script" id=1]
 [ext_resource path="res://UI/Avatar.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Alice-Regular.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://UI/cyan.tres" type="StyleBox" id=4]
-[ext_resource path="res://BattleField.gd" type="Script" id=5]
 [ext_resource path="res://World/Characters/TestPlayer.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFont" id=1]
@@ -97,7 +96,6 @@ rect_min_size = Vector2( 0, 200 )
 
 [node name="BattleField" type="Node2D" parent="."]
 visible = false
-script = ExtResource( 5 )
 
 [node name="PlayerGOHolder" type="Node2D" parent="BattleField"]
 
@@ -113,7 +111,12 @@ margin_right = 257.0
 margin_bottom = 153.0
 size_flags_horizontal = 0
 text = "Show Lobby"
+
+[node name="SyncTimer" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ConnectButton" to="." method="start_client"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/DisconnectButton" to="." method="_on_DisconnectButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/HideButton" to="." method="_on_HideButton_pressed"]
 [connection signal="pressed" from="HUD/ShowLobbyButton" to="." method="_on_ShowLobbyButton_pressed"]
+[connection signal="timeout" from="SyncTimer" to="." method="_on_SyncTimer_timeout"]

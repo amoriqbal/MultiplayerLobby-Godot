@@ -30,7 +30,6 @@ func _ready():
 	var _connected_to_server = get_tree().connect("connected_to_server", self, "_on_connected_to_server")
 	var _connection_failed = get_tree().connect("connection_failed", self, "_on_connection_failed")
 	var _server_disconnected = get_tree().connect("server_disconnected", self, "_on_server_disconnected")
-	
 
 func _on_connection_failed():
 	display_message("Connection failed!")
@@ -99,7 +98,12 @@ func add_avatar(id:int):
 	
 	avatar.set_network_master(id)
 	pl.set_network_master(id)
-	
+	var ids=lobby_reg.keys()
+	ids.append(str(id))
+	ids.sort()
+	var sort_pos=ids.find(str(id))
+	var pos = Vector2(sort_pos * 200, 0)
+	pl.position = pos
 	$VBoxContainer/Avatars.add_child(avatar)
 	$BattleField/PlayerGOHolder.add_child(pl)
 	lobby_reg[str(id)]={
@@ -110,8 +114,9 @@ func add_avatar(id:int):
 func remove_avatar(id):
 	$VBoxContainer/Avatars.remove_child(lobby_reg[str(id)]['avatar'])
 	$BattleField/PlayerGOHolder.remove_child(lobby_reg[str(id)]['player'])
-	for node in lobby_reg[str(id)]:
-		lobby_reg[str(id)][node].queue_free()
+	var to_free=lobby_reg[str(id)]
+	to_free['player'].queue_free()
+	to_free['avatar'].queue_free()
 	lobby_reg.erase(str(id))
 
 func display_message(t:String):
@@ -174,7 +179,10 @@ func _physics_process(delta):
 	if get_my_player()==null:
 		return
 	get_input()
-	velocity = get_my_player().move_and_slide(velocity)
+	#velocity = get_my_player().move_and_slide(velocity)
+	velocity=get_my_player().rpc_unreliable("sync_pos_rot",get_my_player().position,get_my_player().rotation,velocity)
 
-
+func _on_SyncTimer_timeout():
+	if get_my_player()==null:
+		return
 
