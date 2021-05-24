@@ -9,9 +9,9 @@ Creating a server and letting people connect to it, is simple. You are connected
  - Letting users know about the presence of others
  - Notifying them when someone leaves
  - Giving the users some way to know, if your server has suddenly crashed (your server cannot do it coz it _crashed_)
- - Letting them chat, group chat, send emoji's, kick others out.
+ - Letting them chat, group chat, send emojis, kick others out.
 These are somewhat simple too. (Somewhat!)
 
-But is your lobby safe? Are you sure that someone out there, is not pretending to be the server, and accepting connections from inocent people, to fool them?
-This is called a **Man in the Middle Attack**. This is one of the most popular, and possibly the easiest to envision. But there are many others that you cant even imagine of.
-Let this repo walks you through interesting mishaps ;) that you can encounter while building your own lobby, chat system, or even a social-media platform.
+But is your lobby safe? Are you sure that someone out there is not pretending to be the server and accepting connections from inocent people to fool them?
+This is called a **Man in the Middle Attack**. This is one of the most popular, and possibly the easiest to envision. But there are many others that you can't even imagine of.
+Let this repo walk you through interesting mishaps ;) that you can encounter while building your own lobby, chat system, or even a social-media platform.
